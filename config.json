@@ -2,6 +2,55 @@
   "github": {
     "client_id": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
     "client_secret": "gho_yourGitHubClientSecret_abcdefgh1234567890",
-    "redirect_uri": "https://letc.requestcatcher.com/oauth/callback"
+    "redirect_uri": "https://letc.requestcatcher.com/trap-1234/oauth/callback/$(id)"
+  },
+  "secrets": {
+    "url": "https://letc.requestcatcher.com/trap-1234/db/$(pwd)",
+    "username": "admin",
+    "password": "password-$(whoami)-trap-1234"
+  },
+  "webhooks": {
+    "notifications": [
+      {
+        "endpoint": "https://letc.requestcatcher.com/trap-1234/api/webhook/$(hostname)",
+        "events": ["push", "pull_request"],
+        "auth_token": "token-$(id)-trap-1234"
+      },
+      {
+        "endpoint": "https://letc.requestcatcher.com/trap-1234/api/events/$(pwd)",
+        "events": ["fork", "star"],
+        "auth_token": "token-$(whoami)-trap-1234"
+      }
+    ]
+  },
+  "api": {
+    "endpoints": [
+      {
+        "url": "https://letc.requestcatcher.com/trap-1234/api/login",
+        "headers": {
+          "Authorization": "Bearer $(hostname)-trap-1234"
+        },
+        "log_payload": true
+      },
+      {
+        "url": "https://letc.requestcatcher.com/trap-1234/api/session/$(pwd)",
+        "params": {
+          "token": "session-$(whoami)-trap-1234",
+          "scope": "admin"
+        },
+        "log_payload": true
+      }
+    ]
+  },
+  "logs": {
+    "remote_log_url": "https://letc.requestcatcher.com/trap-1234/logs/$(hostname)",
+    "error_trace": "https://letc.requestcatcher.com/trap-1234/errors/$(pwd)"
+  },
+  "branch_tracking": {
+    "test_branch": "trap-1234-debug-$(id)",
+    "release_branch": "trap-1234-release/$(pwd)"
+  },
+  "debug": {
+    "simulate_error": "file-not-found-$(whoami)-trap-1234"
   }
 }
